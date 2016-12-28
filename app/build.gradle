@@ -34,6 +34,10 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
+    compile 'com.github.QuadFlask:colorpicker:0.0.12'
+
     testCompile 'junit:junit:4.12'
     compile files('libs/gson-2.6.2.jar')
+
+
 }

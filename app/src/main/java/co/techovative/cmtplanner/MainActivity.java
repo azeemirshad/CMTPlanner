@@ -8,6 +8,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.ColorRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
         latestEventsTable = (TableLayout)findViewById(R.id.cmtTable);
         if(plannerSQLiteHelper.getAppUrl().equals(""))
             plannerSQLiteHelper.updateApplUrl("http://192.168.1.200/planner/pages/cmts.jsf");
+        if(plannerSQLiteHelper.getColorScheme() == null){
+            plannerSQLiteHelper.updateColorScheme(getResources().getColor(R.color.colorAccent), PlannerSQLiteHelper.KEY_BORDER_COLOR);
+            plannerSQLiteHelper.updateColorScheme(Color.BLACK, PlannerSQLiteHelper.KEY_BACKGR_COLOR);
+            plannerSQLiteHelper.updateColorScheme(getResources().getColor(R.color.holo_red_dark), PlannerSQLiteHelper.KEY_FIRST_ROW);
+            plannerSQLiteHelper.updateColorScheme(getResources().getColor(R.color.colorYellowLight), PlannerSQLiteHelper.KEY_SECOND_ROW);
+            plannerSQLiteHelper.updateColorScheme(Color.WHITE, PlannerSQLiteHelper.KEY_OTHER_ROW);
+        }
+
         PlannerReceiver.scheduleAlarm(this);
         Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
 //        new ShowLatestPlans().execute();
@@ -224,11 +233,18 @@ public class MainActivity extends AppCompatActivity {
             int paddingTop = 5;
             int paddingRight = 3;
             int paddingBotton = 5;
-
-
+            int style = 0, textColor = 0;
+            ColorScheme colorScheme = plannerSQLiteHelper.getColorScheme();
+            latestEventsTable.setBackgroundColor(colorScheme.borderColor);
 
             System.out.println("Earthquakes ::  " + features.size());
             for (Planner feature : features) {
+
+                style = i==300 ? R.style.DateTextStyle3 :
+                        i == 301 ? R.style.DateTextStyle1 : R.style.DateTextStyle2;
+
+                textColor = i==300 ? colorScheme.firstRow :
+                        i == 301 ? colorScheme.secondRow : colorScheme.otherRow;
 
                 localTableRow = new TableRow(MainActivity.this);
                 localTableRow.setId(100 + i);
@@ -237,7 +253,6 @@ public class MainActivity extends AppCompatActivity {
                 params.gravity = Gravity.FILL;
                 params.setMargins(1,1,1,1);
                 //params.rightMargin = 1;
-
 
                 localTableRow.setLayoutParams(params);
                 localTableRow.setGravity(Gravity.FILL);
@@ -249,9 +264,9 @@ public class MainActivity extends AppCompatActivity {
                 col1.setPadding(paddingLeft, paddingTop, paddingRight, paddingBotton);
                 //col1.setWidth(500);
                 //col1.setTextColor(Color.parseColor("#ffffff"));
-                col1.setTextAppearance(MainActivity.this, i==300 ? R.style.DateTextStyle3 :
-                        i % 2 == 0 ? R.style.DateTextStyle1: R.style.DateTextStyle2);
-                col1.setBackgroundColor(Color.BLACK);
+                col1.setTextAppearance(MainActivity.this, style);
+                col1.setTextColor(textColor);
+                col1.setBackgroundColor(colorScheme.backgrColor);
 
                 TableRow.LayoutParams rowparams = new TableRow.LayoutParams(
                         TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.MATCH_PARENT);
@@ -269,9 +284,9 @@ public class MainActivity extends AppCompatActivity {
                 col2.setPadding(paddingLeft, paddingTop, paddingRight, paddingBotton);
                 //col2.setWidth(500);
 //                col2.setTextColor(Color.parseColor("#ffffff"));
-                col2.setTextAppearance(MainActivity.this, i==300 ? R.style.DateTextStyle3 :
-                        i % 2 == 0 ? R.style.DateTextStyle1: R.style.DateTextStyle2);
-                col2.setBackgroundColor(Color.BLACK);
+                col2.setTextAppearance(MainActivity.this, style);
+                col2.setTextColor(textColor);
+                col2.setBackgroundColor(colorScheme.backgrColor);
                 col2.setLayoutParams(rowparams);
 //                col2.setLayoutParams(new TableRow.LayoutParams(
 //                        200,
@@ -284,9 +299,9 @@ public class MainActivity extends AppCompatActivity {
 //                col3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 //                col3.setWidth(50);
 //                col3.setTextColor(Color.parseColor("#ffffff"));
-                col3.setTextAppearance(MainActivity.this, i==300 ? R.style.DateTextStyle3 :
-                        i % 2 == 0 ? R.style.DateTextStyle1: R.style.DateTextStyle2);
-                col3.setBackgroundColor(Color.BLACK);
+                col3.setTextAppearance(MainActivity.this, style);
+                col3.setTextColor(textColor);
+                col3.setBackgroundColor(colorScheme.backgrColor);
                 col3.setLayoutParams(rowparams);
 
                 col4 = new TextView(MainActivity.this);
@@ -296,9 +311,9 @@ public class MainActivity extends AppCompatActivity {
 //                col4.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 //                col3.setWidth(50);
 //                col4.setTextColor(Color.parseColor("#ffffff"));
-                col4.setTextAppearance(MainActivity.this, i==300 ? R.style.DateTextStyle3 :
-                        i % 2 == 0 ? R.style.DateTextStyle1: R.style.DateTextStyle2);
-                col4.setBackgroundColor(Color.BLACK);
+                col4.setTextAppearance(MainActivity.this, style);
+                col4.setTextColor(textColor);
+                col4.setBackgroundColor(colorScheme.backgrColor);
                 col4.setLayoutParams(rowparams);
 
 
@@ -306,9 +321,9 @@ public class MainActivity extends AppCompatActivity {
                 col5.setId(400 + i);
                 col5.setGravity(Gravity.CENTER);
                 col5.setPadding(paddingLeft, 5, paddingRight, 5);
-                col5.setTextAppearance(MainActivity.this, i==300 ? R.style.DateTextStyle3 :
-                        i % 2 == 0 ? R.style.DateTextStyle1: R.style.DateTextStyle2);
-                col5.setBackgroundColor(Color.BLACK);
+                col5.setTextAppearance(MainActivity.this, style);
+                col5.setTextColor(textColor);
+                col5.setBackgroundColor(colorScheme.backgrColor);
                 col5.setMaxWidth(200);
                 col5.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
                 col5.setLayoutParams(rowparams);
@@ -321,10 +336,9 @@ public class MainActivity extends AppCompatActivity {
 //                col6.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 //                col3.setWidth(50);
 //                col6.setTextColor(Color.parseColor("#ffffff"));
-                col6.setTextAppearance(MainActivity.this, i==300 ? R.style.DateTextStyle3 :
-                        i % 2 == 0 ? R.style.DateTextStyle1: R.style.DateTextStyle2);
-
-                col6.setBackgroundColor(Color.BLACK);
+                col6.setTextAppearance(MainActivity.this, style);
+                col6.setTextColor(textColor);
+                col6.setBackgroundColor(colorScheme.backgrColor);
                 col6.setLayoutParams(rowparams);
 //                col3.setLayoutParams(new TableRow.LayoutParams(
 //                        70,
@@ -336,20 +350,11 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Row " + i + ":" + format.format(feature.eventTime) + " : " + feature.topic );
                 col1.setText(String.valueOf(format.format(feature.eventTime)));
                 col2.setText(feature.topic);
-
                 col3.setText(feature.location );
                 col4.setText(feature.chairedBy);
                 col5.setText(feature.attendedBy);
                 col6.setText(feature.section);
 
-
-//                if ((i % 2) == 0) {
-//                    //localTableRow.setBackgroundColor(Color.WHITE);
-//                    localTableRow.setBackgroundResource(R.drawable.row_blue_bg);
-//                } else {
-//                    //localTableRow.setBackgroundColor(Color.LTGRAY);
-//                    localTableRow.setBackgroundResource(R.drawable.row_red_bg);
-//                }
                 localTableRow.addView(col1);
                 localTableRow.addView(col2);
                 localTableRow.addView(col3);

@@ -1,35 +1,35 @@
 package co.techovative.cmtplanner;
 
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Color;
-import android.net.Uri;
+
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
+
 import android.widget.Toast;
+
+import com.flask.colorpicker.ColorPickerView;
+import com.flask.colorpicker.OnColorSelectedListener;
+import com.flask.colorpicker.builder.ColorPickerClickListener;
+import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class ConfigurationActivity extends AppCompatActivity {
+public class ConfigurationActivity extends AppCompatActivity implements  View.OnClickListener{
     private EditText editApplUrl;
-
+    private int currentBackgroundColor = R.color.colorAccent;
     private PlannerSQLiteHelper plannerSQLiteHelper;
+    private Button selBorderColorBtn;
+    private View root;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +39,11 @@ public class ConfigurationActivity extends AppCompatActivity {
         editApplUrl = (EditText) findViewById(R.id.editApplUrl);
         plannerSQLiteHelper = new PlannerSQLiteHelper(this);
         editApplUrl.setText(plannerSQLiteHelper.getAppUrl());
+        root = findViewById(R.id.color_screen);
+        selBorderColorBtn = (Button) findViewById(R.id.btnBorderColor);
+        currentBackgroundColor = getResources().getColor(R.color.colorAccent);
+        changeBackgroundColor(currentBackgroundColor);
+
     }
 
 
@@ -50,6 +55,106 @@ public class ConfigurationActivity extends AppCompatActivity {
         finish();
         overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
     }
+    public void onChooseBorderColor(View V){
+        Log.d("onChooseBorderColor", "Opening dialog");
+//        int[] colors = {R.color.amber, R.color.blue, R.color.brown, R.color.blue_grey, R.color.cyan, R.color.deep_orange, R.color.deep_purple,
+//                        R.color.green};
+//        ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
+//        colorPickerDialog.initialize(
+//                R.string.color_picker_default_title, colors, R.color.blue, 4, colors.length);
+//        colorPickerDialog.show(getFragmentManager(), "Color Chooser");
+//        LayoutInflater layoutInflater = LayoutInflater.from(this);
+//        ColorPickerPalette colorPickerPalette = (ColorPickerPalette) layoutInflater
+//                .inflate(R.layout.color_palette, null);
+//        colorPickerPalette.init(colors.length, 4, this);
+//        colorPickerPalette.drawPalette(colors, R.color.blue);
+//        android.support.v7.app.AlertDialog alert = new android.support.v7.app.AlertDialog.Builder(this)
+//                .setTitle(R.string.color_picker_default_title)
+////                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+////                    @Override
+////                    public void onClick(DialogInterface dialogInterface, int i) {
+////                        Log.d("onClick" , "Clicked Yes ");
+////                    }
+////                })
+////                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+////                    @Override
+////                    public void onClick(DialogInterface dialogInterface, int i) {
+////                        Log.d("onClick" , "Clicked No ");
+////                    }
+////                })
+//                .setView(colorPickerPalette)
+//                .create();
+//        alert.show();
 
 
+//        ColorChooserDialog dialog = new ColorChooserDialog(this);
+//        dialog.setTitle("Choose Color");
+//        dialog.setColorListener(new ColorListener() {
+//            @Override
+//            public void OnColorClick(View v, int color) {
+//                //do whatever you want to with the values
+//                Log.d("onClick" , "Clicked Yes ");
+//
+//                Log.d("onColorSelected" , "Selected color :: " +  getResources().getResourceName(color));
+//                Snackbar.make(v, "Color: "+color, Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//                getResources().getResourceName(color);
+//
+//            }
+//        });
+//        //customize the dialog however you want
+//        dialog.show();
+
+
+
+
+
+
+        ColorPickerDialogBuilder
+
+                .with(this, R.style.MyDialogTheme)
+                .setTitle("Choose color")
+                .initialColor(currentBackgroundColor)
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .density(12)
+                .setOnColorSelectedListener(new OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(int selectedColor) {
+                        Toast.makeText(ConfigurationActivity.this, "onColorSelected: 0x" + Integer.toHexString(selectedColor), Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setPositiveButton("ok", new ColorPickerClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                        changeBackgroundColor(selectedColor);
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .build()
+                .show();
+
+
+
+
+
+    }
+    private void changeBackgroundColor(int selectedColor) {
+        currentBackgroundColor = selectedColor;
+        root.setBackgroundColor(selectedColor);
+        selBorderColorBtn.setBackgroundColor(selectedColor);
+    }
+
+    private void toast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onClick(View view) {
+
+    }
 }

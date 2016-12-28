@@ -19,12 +19,13 @@ import java.util.Map;
 public class PlannerSQLiteHelper extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     // Database Name
     private static final String DATABASE_NAME = "PlannerDB";
 
     private static final String TABLE_PLANNER = "PLANNER";
     private static final String TABLE_APP_URL= "APP_URL";
+    private static final String TABLE_COLOR_SCHEME = "COLOR_SCHEME";
 
 
 
@@ -37,8 +38,11 @@ public class PlannerSQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_ATTENDED_BY = "attendedBy";
     private static final String KEY_SECTION = "Section";
     private static final String KEY_APP_URL = "App_Url";
-
-
+    public static final String KEY_BORDER_COLOR = "BORDER_COLOR";
+    public static final String KEY_BACKGR_COLOR = "BACKGR_COLOR";
+    public static final String KEY_FIRST_ROW = "FIRST_ROW";
+    public static final String KEY_SECOND_ROW = "SECOND_ROW";
+    public static final String KEY_OTHER_ROW = "OTHER_ROW";
 
 
     public PlannerSQLiteHelper(Context context) {
@@ -60,14 +64,25 @@ public class PlannerSQLiteHelper extends SQLiteOpenHelper {
         String CREATE_APP_URL_TABLE = "CREATE TABLE APP_URL( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "App_Url TEXT )";
+        String CREATE_COLOR_SCHEME_TABLE = "CREATE TABLE COLOR_SCHEME( " +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "BORDER_COLOR REAL, " +
+                "BACKGR_COLOR REAL, " +
+                "FIRST_ROW REAL, " +
+                "SECOND_ROW REAL  " +
+                "OTHER_ROW REAL  )";
+
         db.execSQL(CREATE_PLANNER_TABLE);
         db.execSQL(CREATE_APP_URL_TABLE);
+        db.execSQL(CREATE_COLOR_SCHEME_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older tables if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLANNER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_APP_URL);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COLOR_SCHEME);
         // create fresh tables
         this.onCreate(db);
     }
@@ -215,4 +230,51 @@ public class PlannerSQLiteHelper extends SQLiteOpenHelper {
         return codes;
 
     }
+
+    public void updateColorScheme(int color, String key){
+        Log.d("updateColorScheme", key + " : " + color);
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "SELECT * FROM " + TABLE_COLOR_SCHEME;
+        int recordCount = db.rawQuery(sql, null).getCount();
+//        db.close();
+        if(recordCount < 1)
+        // 2. create ContentValues to add key "column"/value
+        {
+            ContentValues values = new ContentValues();
+            values.put(key, color); // get title
+            // 3. insert
+            db.insert(TABLE_COLOR_SCHEME, // table
+                    null, //nullColumnHack
+                    values); // key/value -> keys = column names/ values = column values
+        }else
+        {
+            sql = "UPDATE " + TABLE_COLOR_SCHEME + " SET " + key + " = " + color +" ";
+            db.execSQL(sql);
+        }
+        // 4. close
+        db.close();
+    }
+
+    public ColorScheme getColorScheme() {
+        Log.d("getColorScheme()", "Begin .......");
+        SQLiteDatabase db = this.getWritableDatabase();
+        ColorScheme codes = null ;
+        String sql = "SELECT *  FROM " + TABLE_COLOR_SCHEME ;
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            do {
+                codes.borderColor = cursor.getInt(1);
+                codes.backgrColor = cursor.getInt(2);
+                codes.firstRow = cursor.getInt(3);
+                codes.secondRow = cursor.getInt(4);
+                codes.otherRow = cursor.getInt(5);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        Log.d("getAppUrl()", codes.borderColor + " : " + codes.backgrColor);
+        return codes;
+
+    }
+
 }

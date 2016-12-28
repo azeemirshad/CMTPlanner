@@ -109,7 +109,7 @@ public class PlannerReceiver extends BroadcastReceiver {
                 urlConn = url.openConnection();
 //                if (urlConn != null)
 //                    System.out.println("Requested URL:1 ");
-                urlConn.setReadTimeout(120 * 1000);
+                urlConn.setReadTimeout(60 * 1000);
                 if (urlConn != null && urlConn.getInputStream() != null) {
 //                    System.out.println("Requested URL:2 ");
                     in = new InputStreamReader(urlConn.getInputStream(), Charset.defaultCharset());

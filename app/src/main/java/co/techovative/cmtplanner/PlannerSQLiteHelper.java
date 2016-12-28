@@ -19,7 +19,7 @@ import java.util.Map;
 public class PlannerSQLiteHelper extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     // Database Name
     private static final String DATABASE_NAME = "PlannerDB";
 
@@ -69,7 +69,7 @@ public class PlannerSQLiteHelper extends SQLiteOpenHelper {
                 "BORDER_COLOR REAL, " +
                 "BACKGR_COLOR REAL, " +
                 "FIRST_ROW REAL, " +
-                "SECOND_ROW REAL  " +
+                "SECOND_ROW REAL,  " +
                 "OTHER_ROW REAL  )";
 
         db.execSQL(CREATE_PLANNER_TABLE);
@@ -264,6 +264,7 @@ public class PlannerSQLiteHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
             do {
+                codes = new ColorScheme();
                 codes.borderColor = cursor.getInt(1);
                 codes.backgrColor = cursor.getInt(2);
                 codes.firstRow = cursor.getInt(3);
@@ -272,7 +273,7 @@ public class PlannerSQLiteHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         db.close();
-        Log.d("getAppUrl()", codes.borderColor + " : " + codes.backgrColor);
+//        Log.d("getAppUrl()", codes.borderColor + " : " + codes.backgrColor);
         return codes;
 
     }

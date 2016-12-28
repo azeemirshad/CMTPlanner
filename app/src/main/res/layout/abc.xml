@@ -11,27 +11,23 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ConfigurationActivity"
     tools:showIn="@layout/activity_configuration">
-<!--android.support.design.widget.CoordinatorLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" -->
+    android:layout_height="match_parent">
 
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <View
-            android:id="@+id/color_screen"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            />
+
         <GridLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="327dp"
             android:id="@+id/gridAlertLvl"
-            android:layout_below="@+id/btnConfigure"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
+            android:layout_alignParentTop="false"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center">
 
 
             <TextView
@@ -53,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/editApplUrl"
-                android:text="abc"
+                android:text="http://192.168.18.136/planner/"
                 android:layout_weight="6.98" />
             <ImageButton
 
@@ -69,10 +65,21 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Border Color : "
-                android:id="@+id/textView2"
+                android:id="@+id/textView3"
                 android:layout_row="2"
                 android:layout_column="0" android:layout_margin="2dp"
 
+                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:weightSum="1">
+            <View
+                android:id="@+id/color_border_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
                 />
             <Button
                 android:text="Choose"
@@ -80,11 +87,188 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/btnBorderColor"
                 android:onClick="onChooseBorderColor"
-                style="@style/MyButton"/>
+                style="@style/MyButton"
+                android:elevation="3dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Background Color : "
+                android:id="@+id/textView4"
+                android:layout_row="3"
+                android:layout_column="0" android:layout_margin="2dp"
+
+                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_row="3"
+                android:layout_column="1"
+                android:weightSum="1">
+            <View
+                android:id="@+id/color_backgr_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                />
+            <Button
+                android:text="Choose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnBackgrColor"
+                android:onClick="onChooseBackgrColor"
+                style="@style/MyButton"
+                android:elevation="3dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Title Row : "
+                android:id="@+id/textView8"
+                android:layout_row="4"
+                android:layout_column="0" android:layout_margin="2dp"
+
+                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_row="4"
+                android:layout_column="1"
+                android:weightSum="1">
+            <View
+                android:id="@+id/color_title_row_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                />
+            <Button
+                android:text="Choose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnTitleRowColor"
+                android:onClick="onChooseTitleRowColor"
+                style="@style/MyButton"
+                android:elevation="3dp" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="First Row : "
+                android:id="@+id/textView5"
+                android:layout_row="5"
+                android:layout_column="0" android:layout_margin="2dp"
+
+                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_row="5"
+                android:layout_column="1"
+                android:weightSum="1">
+                <View
+                    android:id="@+id/color_first_row_view"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    />
+                <Button
+                    android:text="Choose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnFirstRowColor"
+                    android:onClick="onChooseFirstRowColor"
+                    style="@style/MyButton"
+                    android:elevation="3dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Second Row : "
+                android:id="@+id/textView6"
+                android:layout_row="6"
+                android:layout_column="0" android:layout_margin="2dp"
+
+                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_row="6"
+                android:layout_column="1"
+                android:weightSum="1">
+            <View
+                android:id="@+id/color_second_row_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                />
+            <Button
+                android:text="Choose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnSecondRowColor"
+                android:onClick="onChooseSecondRowColor"
+                style="@style/MyButton"
+                android:elevation="3dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Other Row : "
+                android:id="@+id/textView2"
+                android:layout_row="7"
+                android:layout_column="0" android:layout_margin="2dp"
+
+                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_row="7"
+                android:layout_column="1"
+                android:weightSum="1">
+            <View
+                android:id="@+id/color_other_row_view"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                />
+            <Button
+                android:text="Choose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnOtherRowColor"
+                android:onClick="onChooseOtherRowColor"
+                style="@style/MyButton"
+                android:elevation="3dp" />
+            </LinearLayout>
         </GridLayout>
-
-
+    <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+        <Button
+            android:text="Apply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnApply"
+            android:onClick="onApply"
+            style="@style/MyButton"
+            android:elevation="3dp" />
+        <Button
+            android:text="Restore Default"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnRestoreDefault"
+            android:onClick="onRestoreDefault"
+            style="@style/MyButton"
+            android:elevation="3dp" />
+        </LinearLayout>
 
     </LinearLayout>
-<!-- /android.support.design.widget.CoordinatorLayout -->
+</android.support.design.widget.CoordinatorLayout>
     </RelativeLayout>

@@ -5,5 +5,5 @@ package co.techovative.cmtplanner;
  */
 
 public class ColorScheme {
-    public int borderColor, backgrColor, firstRow, secondRow, otherRow;
+    public int borderColor, backgrColor, firstRow, secondRow, otherRow, titleRow;
 }

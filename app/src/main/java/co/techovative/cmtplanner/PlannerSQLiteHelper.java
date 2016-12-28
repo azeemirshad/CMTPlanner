@@ -19,7 +19,7 @@ import java.util.Map;
 public class PlannerSQLiteHelper extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
     // Database Name
     private static final String DATABASE_NAME = "PlannerDB";
 
@@ -43,7 +43,7 @@ public class PlannerSQLiteHelper extends SQLiteOpenHelper {
     public static final String KEY_FIRST_ROW = "FIRST_ROW";
     public static final String KEY_SECOND_ROW = "SECOND_ROW";
     public static final String KEY_OTHER_ROW = "OTHER_ROW";
-
+    public static final String KEY_TITLE_ROW = "TITLE_ROW";
 
     public PlannerSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -70,7 +70,8 @@ public class PlannerSQLiteHelper extends SQLiteOpenHelper {
                 "BACKGR_COLOR REAL, " +
                 "FIRST_ROW REAL, " +
                 "SECOND_ROW REAL,  " +
-                "OTHER_ROW REAL  )";
+                "OTHER_ROW REAL, " +
+                "TITLE_ROW REAL  )";
 
         db.execSQL(CREATE_PLANNER_TABLE);
         db.execSQL(CREATE_APP_URL_TABLE);
@@ -270,6 +271,7 @@ public class PlannerSQLiteHelper extends SQLiteOpenHelper {
                 codes.firstRow = cursor.getInt(3);
                 codes.secondRow = cursor.getInt(4);
                 codes.otherRow = cursor.getInt(5);
+                codes.titleRow = cursor.getInt(6);
             } while (cursor.moveToNext());
         }
         db.close();

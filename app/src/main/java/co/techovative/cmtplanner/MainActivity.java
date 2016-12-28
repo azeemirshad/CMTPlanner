@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
                 Intent localIntent = new Intent(MainActivity.this, ConfigurationActivity.class);
-                MainActivity.this.startActivity(localIntent);
+                MainActivity.this.startActivityForResult(localIntent, 102);
                 //push from bottom to top
                 overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
             }
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             plannerSQLiteHelper.updateColorScheme(getResources().getColor(R.color.holo_red_dark), PlannerSQLiteHelper.KEY_FIRST_ROW);
             plannerSQLiteHelper.updateColorScheme(getResources().getColor(R.color.colorYellowLight), PlannerSQLiteHelper.KEY_SECOND_ROW);
             plannerSQLiteHelper.updateColorScheme(Color.WHITE, PlannerSQLiteHelper.KEY_OTHER_ROW);
+            plannerSQLiteHelper.updateColorScheme(Color.WHITE, PlannerSQLiteHelper.KEY_TITLE_ROW);
         }
 
         PlannerReceiver.scheduleAlarm(this);
@@ -101,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        Log.d("onActivityResult", "Returned from child activity");
+        new ShowLatestPlans().execute();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -220,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
             String temp;
 
             ArrayList<TableRow> localTableRows = new ArrayList<TableRow>();
-            int i = 300;
+
             TableRow localTableRow = null;
 
             TextView col1 = null;
@@ -236,7 +243,13 @@ public class MainActivity extends AppCompatActivity {
             int style = 0, textColor = 0;
             ColorScheme colorScheme = plannerSQLiteHelper.getColorScheme();
             latestEventsTable.setBackgroundColor(colorScheme.borderColor);
-
+            localTableRow = (TableRow) latestEventsTable.getChildAt(0);
+            for (int j= 0; j<localTableRow.getChildCount(); j++){
+                col1 = (TextView)localTableRow.getChildAt(j);
+                col1.setTextColor(colorScheme.titleRow);
+                col1.setBackgroundColor(colorScheme.backgrColor);
+            }
+            int i = 300;
             System.out.println("Earthquakes ::  " + features.size());
             for (Planner feature : features) {
 
